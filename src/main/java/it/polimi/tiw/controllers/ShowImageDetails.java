@@ -1,5 +1,7 @@
 package it.polimi.tiw.controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import it.polimi.tiw.beans.Comment;
 import it.polimi.tiw.beans.Image;
 import it.polimi.tiw.dao.CommentDAO;
@@ -22,7 +24,6 @@ import java.util.List;
 @WebServlet("/ShowImageDetails")
 public class ShowImageDetails extends HttpServlet {
     private static Connection connection;
-    private static TemplateEngine templateEngine;
 
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
@@ -42,10 +43,11 @@ public class ShowImageDetails extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to get the desired image.");
             return;
         }
-        WebContext webContext = new WebContext(request, response, getServletContext(), request.getLocale());
-        webContext.setVariable("imageDetails", imageDetails);
-        webContext.setVariable("comments", comments);
-        String path = Pages.albumPage;
-        templateEngine.process(path, webContext, response.getWriter());
+        Gson gson = new GsonBuilder().setDateFormat("yyyy MM dd").create();
+        String jsonAnswer = gson.toJson(imageDetails);
+        String jsonComments = gson.toJson(comments);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonAnswer);
     }
 }

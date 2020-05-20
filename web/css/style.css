@@ -60,7 +60,13 @@ form {
     margin: 20px;
 }
 
-#details img {
-    max-width: 90%;
+.detailsImg {
+    max-width: 60%;
     padding: 20px;
+}
+
+.hidden {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
 }

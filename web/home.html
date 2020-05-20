@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/makeCall.js" defer></script>
     <script src="js/home.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -31,9 +33,9 @@
     <div id="alert"></div>
     <div>
         <table class="table thumbnail" id="imageContainer" style="width: 100%">
-            <h2 id="albumImagesTitle" style="padding: 10px;">Album images</h2>
+            <h1 id="albumImagesTitle" style="padding: 10px;">Album images</h1>
         </table>
-        <div class="arrowsDiv">
+        <div id="arrowsDiv" class="arrowsDiv">
             <a id="prev" class="leftArrow btn btn-primary">Prev</a>
             <a id="next" class="rightArrow btn btn-primary">Next</a>
         </div>
@@ -47,7 +49,29 @@
             </thead>
             <tbody id="albumListBody"></tbody>
         </table>
+        <div id="imageDetailsLMAO"></div>
     </div>
 </div>
+
+<div id="modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
