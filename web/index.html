@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TIW-Exam 2020 &bull; Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/makeCall.js" defer></script>
+    <script src="js/login.js" charset="utf-8" defer></script>
+</head>
+<body>
+<div th:insert="fragments/navbar::navigation('Home')"></div>
+<div class="main">
+    <h1>TIW Exam 2020</h1>
+    <h2>Luca Pirovano</h2>
+    <h4>10569272 &bull; 888838</h4>
+
+    <p>Hi! You are pleased to login</p>
+    <div class="forms">
+        <form action="#">
+            <fieldset>
+            <div class="form-group">
+                <label>Username
+                <input class="form-control" type="text" name="username" required></label>
+            </div>
+            <div class="form-group">
+                <label>Password
+                    <input class="form-control" type="password" name="password" required></label>
+            </div>
+            <input type="button" class="btn btn-primary" id="loginButton" value="Login"><br>
+            <p id="errorMessage"></p>
+        </fieldset>
+        </form>  
+    </div>
+</div>
+</body>
+</html>

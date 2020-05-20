@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Album Gallery</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/makeCall.js" defer></script>
+    <script src="js/home.js" defer></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">TIW-Exam 2020</a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link">Welcome back, <span id="id_username"></span></a>
+            </li>
+        </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="text-align: right">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a id="logout" href="Logout" style="text-align: right" class="nav-link">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</nav>
+<div class="main">
+    <div id="alert"></div>
+    <div>
+        <table class="table thumbnail" id="imageContainer" style="width: 100%">
+            <h2 id="albumImagesTitle" style="padding: 10px;">Album images</h2>
+        </table>
+        <div class="arrowsDiv">
+            <a id="prev" class="leftArrow btn btn-primary">Prev</a>
+            <a id="next" class="rightArrow btn btn-primary">Next</a>
+        </div>
+        <table class="table" id="albumList">
+            <h1 id="albumListTitle">Albums</h1>
+            <thead class="table-dark">
+            <th scope="col">ID</th>
+            <th scope="col">Album name</th>
+            <th scope="col">Creation date</th>
+            <th scope="col">More details</th>
+            </thead>
+            <tbody id="albumListBody"></tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

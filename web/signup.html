@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up &bull; Where is my munnezz</title>
+    <script src="js/signup.js" defer></script>
+</head>
+<body>
+    <style>
+        input {
+            padding: 5px;
+            margin: 10px;
+        }
+        label {
+            margin: 10px;
+        }
+    </style>
+    <h1>Sign Up</h1>
+    <p>Please fill all the fields below and click on the button "SignUp".</p>
+    <form name="signUp" onsubmit="validateForm()">
+        <label>Username:
+            <input type="text" id="username" name="username" />
+        </label><br>
+        <label>Password:
+            <input type="password" id="password" name="password"/>
+        </label><br>
+        <input type="submit" id="submit" value="SignUp" />
+    </form>
+    <p style="color:darkred" id="errorMessage"></p><br>
+    <a href="index.html">Back to login page</a>
+</body>
+</html>
