@@ -29,7 +29,6 @@ public class GetAlbumDetails extends HttpServlet {
         int pageId = Integer.parseInt(request.getParameter("page"));
         ImageDAO imageDAO = new ImageDAO(connection, albumId);
         List<Image> images;
-        //TODO fix forward/backward images slide
         try {
             images = imageDAO.retrieveImages();
         } catch (SQLException e) {
