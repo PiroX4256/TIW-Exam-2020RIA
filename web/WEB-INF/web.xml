@@ -24,4 +24,20 @@
         <param-name>dbDriver</param-name>
         <param-value>com.mysql.cj.jdbc.Driver</param-value>
     </context-param>
+    <filter>
+        <filter-name>LoggedInFilter</filter-name>
+        <filter-class>it.polimi.tiw.filters.LoggedInChecker</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggedInFilter</filter-name>
+        <url-pattern>/AddComment</url-pattern>
+        <url-pattern>/ChangeAlbumOrder</url-pattern>
+        <url-pattern>/CreateNewAlbum</url-pattern>
+        <url-pattern>/GetAlbumList</url-pattern>
+        <url-pattern>/GetAlbumDetails</url-pattern>
+        <url-pattern>/home.html</url-pattern>
+        <url-pattern>/InsertImage</url-pattern>
+        <url-pattern>/ShowImageDetails</url-pattern>
+    </filter-mapping>
+
 </web-app>

@@ -49,5 +49,6 @@ document.getElementById("saveOrder").addEventListener("click", (e) => {
             alert("Albums order has been successfully changed!");
         }
     })
+    document.getElementById("saveOrder").style.visibility = "hidden";
 })
 

@@ -42,4 +42,13 @@ public class AlbumDAO {
             preparedStatement.executeUpdate();
         }
     }
+
+    public void updateAlbumList(int userId, String albumOrder) throws SQLException {
+        String query = "UPDATE users SET albumOrder = ? WHERE id = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, albumOrder);
+            preparedStatement.setInt(2, userId);
+            preparedStatement.executeUpdate();
+        }
+    }
 }
