@@ -55,19 +55,38 @@ function AlbumList(_alert, _albumList, _albumListBody, _albumListTitle) {
         else {
             this.albumListBody.innerHTML = "";
             var self = this;
+            var row = document.createElement("tr");
+            row.className = "tableHeading";
+            let id = document.createElement("th");
+            id.textContent = "ID";
+            row.appendChild(id);
+            let albumName = document.createElement("th");
+            albumName.textContent = "Album name";
+            row.appendChild(albumName);
+            let creationDate = document.createElement("th");
+            creationDate.textContent = "Creation date";
+            row.appendChild(creationDate);
+            let moreDetails = document.createElement("th");
+            moreDetails.textContent = "More details";
+            row.appendChild(moreDetails);
+            self.albumListBody.appendChild(row);
             albumArray.forEach(function (album) {
                 row = document.createElement("tr");
                 destcell = document.createElement("td");
                 destcell.textContent = album.albumId;
+                destcell.className = "grab";
                 row.appendChild(destcell);
                 nameCell = document.createElement("td");
                 nameCell.textContent = album.title;
+                nameCell.className = "grab";
                 row.appendChild(nameCell);
                 datecell = document.createElement("td");
                 datecell.textContent = album.creationDate;
+                datecell.className = "grab";
                 row.appendChild(datecell);
                 linkcell = document.createElement("td");
                 anchor = document.createElement("a");
+                linkcell.className = "grab";
                 linkcell.appendChild(anchor);
                 let linkText = document.createTextNode("Details");
                 anchor.appendChild(linkText);
@@ -80,6 +99,12 @@ function AlbumList(_alert, _albumList, _albumListBody, _albumListTitle) {
                 row.appendChild(linkcell);
                 self.albumListBody.appendChild(row);
             });
+            var row = document.createElement("tr");
+            row.appendChild(document.createElement("th"));
+            row.appendChild(document.createElement("th"));
+            row.appendChild(document.createElement("th"));
+            row.appendChild(document.createElement("th"));
+            self.albumListBody.appendChild(row);
             this.albumListTitle.style.visibility = "visible";
             this.albumList.style.visibility = "visible";
         }

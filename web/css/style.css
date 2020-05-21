@@ -70,3 +70,11 @@ form {
     left: -9999px !important;
     top: -9999px !important;
 }
+
+.grab { cursor: grab; }
+.grabbed { box-shadow: 0 0 13px #000; }
+.grabCursor, .grabCursor * { cursor: grabbing !important; }
+.tableHeading {
+    background-color: #343A40;
+    color: white;
+}
