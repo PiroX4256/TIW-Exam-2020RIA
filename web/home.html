@@ -71,9 +71,24 @@
                     </thead>
                     <tbody id="commentsBody"></tbody>
                 </table>
-                <form id="addComment">
-
+                <b><h2>Add a comment</h2></b>
+                <form name="addComment" id="addComment" action="#">
+                    <fieldset>
+                    <div class="form-group">
+                        <label>Nickname
+                            <input class="form-control" type="text" name="nickname" required>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Comment
+                            <textarea class="form-control" name="comment" required></textarea>
+                        </label>
+                    </div>
+                    <input type="hidden" name="image" id="imageToComment">
+                    <input type="button" class="btn btn-primary" id="addCommentButton" value="Send">
+                    </fieldset>
                 </form>
+                <p style="color: darkred" id="errorMessage"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

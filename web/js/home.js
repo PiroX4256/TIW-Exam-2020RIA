@@ -1,6 +1,6 @@
 (function () {
     var albumDetails, currentAlbum=0; currentPage = 0, albumList, pageOrchestrator = new PageOrchestrator();
-    var imageDetailsLMAO, directionalButtons, imageList, currentImages = [];
+    var imageDetailsLMAO, directionalButtons, addComment, imageList, currentImages = [];
     window.addEventListener('load', () => {
         pageOrchestrator.start();
         pageOrchestrator.refresh();
@@ -135,6 +135,7 @@ function AlbumDetails(options) {
                 imageDetailsLMAO.show(imageList[i].imageId);
                 $("#modal").on('hide.bs.modal', function(){
                     imageDetailsLMAO.reset();
+                    addComment.reset();
                 });
             })
             destImage.src = imageList[i].path;
@@ -164,6 +165,7 @@ function AlbumDetails(options) {
                 imageDetailsLMAO.show(image.imageId);
                 $("#modal").on('hide.bs.modal', function(){
                     imageDetailsLMAO.reset();
+                    addComment.reset();
                 });
             })
             row.appendChild(destImage);
@@ -251,6 +253,7 @@ function ImageDetails(_alert, _imageDetails) {
                 if(req.readyState == 4) {
                     if(req.status==200) {
                         self.updateComments(JSON.parse(req.responseText));
+                        addComment = new AddComment(imageId);
                     }
                     else {
                         self.alert.textContent = message;
@@ -261,6 +264,7 @@ function ImageDetails(_alert, _imageDetails) {
 
     this.updateComments = function (response) {
         var self = this;
+        var children = document.getElementById("commentsBody").innerHTML = "";
         if(response.length!=0) {
             response.forEach(function (comment) {
                 let row = document.createElement("tr");
@@ -319,5 +323,44 @@ function PageOrchestrator() {
         directionalButtons.reset();
         albumList.show();
     }
+}
+
+function AddComment (currentImageId) {
+    this.currentImageId = currentImageId;
+    this.reset = function () {
+        document.getElementById("errorMessage").textContent = "";
+    }
+    document.getElementById("addCommentButton").addEventListener('click', (e => {
+        var form = e.target.closest("form");
+        if (form.checkValidity()) {
+            if(document.forms["addComment"]["nickname"].value=="" || document.forms["addComment"]["comment"].value=="") {
+                document.getElementById("errorMessage").textContent = "Field must not be empty!";
+                return;
+            }
+            form = e.target.closest("form");
+            form.querySelector("input[type = 'hidden']").value = this.currentImageId;
+            makeCall("POST", "AddComment", form,
+                function (request) {
+                    if (request.readyState === XMLHttpRequest.DONE) {
+                        var message = request.responseText;
+                        switch (request.status) {
+                            case 200:   //Everything is ok
+                                $("#modal").modal('hide');
+                                break;
+                            case 400:   //Returned bad request
+                                document.getElementById("errorMessage").innerHTML = message;
+                                break;
+                            case 401:   //Not authorized
+                                document.getElementById("errorMessage").innerHTML = message;
+                                break;
+                            case 500:
+                                document.getElementById("errorMessage").innerHTML = message;
+                                break;
+                        }
+                    }
+                })
+
+        } else form.reportValidity();
+    }))
 }
 })();
