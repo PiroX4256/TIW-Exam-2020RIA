@@ -16,9 +16,11 @@ document.getElementById("albumListBody").addEventListener("mousedown", (e) => {
             }
         });
     }
+
     function up (e) {
         if (drag && si != tr.index()) {
             drag = false;
+            document.getElementById("saveOrder").style.visibility = "visible";
             //alert("moved!");
         }
         $(document).unbind("mousemove", move).unbind("mouseup", up);
@@ -27,3 +29,25 @@ document.getElementById("albumListBody").addEventListener("mousedown", (e) => {
     }
     $(document).mousemove(move).mouseup(up);
 });
+
+document.getElementById("saveOrder").addEventListener("click", (e) => {
+    var table = document.getElementById("albumList");
+    var jsonReq = {
+        "albumsOrder" : []
+    };
+    for(var i=1; i<table.rows.length - 1; i++) {
+        let row = table.rows[i];
+        jsonReq.albumsOrder.push(row.cells[0].textContent);
+    }
+    var request = JSON.stringify(jsonReq);
+    $.ajax({
+        type: "POST",
+        dataType: "application/json",
+        url: "ChangeAlbumsOrder",
+        data: request,
+        success: function () {
+            alert("Albums order has been successfully changed!");
+        }
+    })
+})
+
