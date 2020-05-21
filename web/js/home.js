@@ -119,6 +119,7 @@ function AlbumDetails(options) {
     this.date = options['date'];
     this.description = options['description'];
     this.path = options['path'];
+    this.goToHome = options['backToHomePage'];
 
     this.show = function (albumId, page) {
         var self = this;
@@ -144,6 +145,7 @@ function AlbumDetails(options) {
     this.reset = function () {
         this.imageContainer.style.visibility = "hidden";
         this.albumImagesTitle.style.visibility = "hidden";
+        this.goToHome.style.visibility = "hidden";
         document.getElementById("imageContainer").className = "hidden";
         document.getElementById("albumImagesTitle").className = "hidden";
     }
@@ -175,10 +177,12 @@ function AlbumDetails(options) {
 
     this.create = function() {
         var row, self = this;
+        this.imageContainer.innerHTML = "";
         row = document.createElement("tr");
         var i=0;
+        currentImages = [];
         for(let image of imageList) {
-            currentImages.push(image);
+                currentImages.push(image);
         }
         for(let image of currentImages) {
             if(i==5) break;
@@ -201,6 +205,10 @@ function AlbumDetails(options) {
         this.albumImagesTitle.style.visibility = "visible";
         document.getElementById("imageContainer").className = "table thumbnail";
         document.getElementById("albumImagesTitle").className = "";
+        self.goToHome.addEventListener("click", function () {
+            pageOrchestrator.refresh();
+        })
+        self.goToHome.style.visibility = "visible";
         albumList.reset();
     }
 }
@@ -338,7 +346,8 @@ function PageOrchestrator() {
         document.getElementById("albumListBody"), document.getElementById("albumListTitle"))
     albumDetails = new AlbumDetails({alert: alertContainer,
         imageContainer: document.getElementById("imageContainer"),
-        albumImagesTitle: document.getElementById("albumImagesTitle")});
+        albumImagesTitle: document.getElementById("albumImagesTitle"),
+        backToHomePage: document.getElementById("goToHome")});
     directionalButtons = new DirectionalButtons(document.getElementById("next"), document.getElementById("prev"));
     imageDetailsLMAO = new ImageDetails(alertContainer, document.getElementById("imageDetailsLMAO"));
     this.refresh = function () {

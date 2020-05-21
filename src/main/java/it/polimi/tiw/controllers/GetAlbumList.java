@@ -3,6 +3,7 @@ package it.polimi.tiw.controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.tiw.beans.Album;
+import it.polimi.tiw.beans.User;
 import it.polimi.tiw.dao.AlbumDAO;
 import it.polimi.tiw.utils.Initializer;
 
@@ -25,10 +26,11 @@ public class GetAlbumList extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User)request.getSession().getAttribute("user");
         AlbumDAO albumDAO = new AlbumDAO(connection);
         List<Album> albumList;
         try {
-            albumList = albumDAO.retrieveAlbumList();
+            albumList = albumDAO.retrieveAlbumList(user.getId());
         }
         catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
