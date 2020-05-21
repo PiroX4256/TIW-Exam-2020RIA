@@ -30,7 +30,7 @@ public class ImageDAO {
     }
 
     public List<Image> retrieveImages() throws SQLException {
-        String query = "SELECT * FROM image WHERE album = ?";
+        String query = "SELECT * FROM image WHERE album = ? ORDER BY date DESC";
         List<Image> images = new ArrayList<>();
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, album);

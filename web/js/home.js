@@ -128,18 +128,19 @@ function AlbumDetails(options) {
         self.imageContainer.removeChild(self.imageContainer.firstElementChild);
         var row = document.createElement("tr");
         for(i=currentPage*5; i<(currentPage*5+5); i++) {
-            if(i==imageList.length) break;
             row.appendChild(document.createElement("td"));
             var destImage = document.createElement("img");
             destImage.addEventListener("click", () => {
-                $(document).ready(function(){
-                    $("#modal").modal('show');
-                });
+                $('#modal').modal('show');
                 imageDetailsLMAO.show(imageList[i].imageId);
+                $("#modal").on('hide.bs.modal', function(){
+                    imageDetailsLMAO.reset();
+                });
             })
             destImage.src = imageList[i].path;
             row.appendChild(destImage);
             row.appendChild(document.createElement("td"));
+            if((i+1)==imageList.length) break;
         }
         self.imageContainer.appendChild(row);
         self.imageContainer.classname = "table thumbnail";
@@ -159,11 +160,14 @@ function AlbumDetails(options) {
             var destImage = document.createElement("img");
             destImage.src = image.path;
             destImage.addEventListener("click", () => {
+                $('#modal').modal('show');
                 imageDetailsLMAO.show(image.imageId);
+                $("#modal").on('hide.bs.modal', function(){
+                    imageDetailsLMAO.reset();
+                });
             })
             row.appendChild(destImage);
             row.appendChild(document.createElement("td"));
-            currentImages.push(image);
             i++;
         }
         self.imageContainer.appendChild(row);
@@ -212,14 +216,20 @@ function DirectionalButtons(_next, _prev) {
 function ImageDetails(_alert, _imageDetails) {
     this.alert = _alert;
     this.imageDetails = _imageDetails;
+    var self = this;
+    var imageId;
 
     this.reset = function () {
+        if(self.imageDetails.firstElementChild!=null) {
+            self.imageDetails.removeChild(self.imageDetails.firstElementChild);
+        }
         this.imageDetails.style.visibility = "hidden";
     }
 
     this.show = function(image) {
         var self = this;
-        makeCall("GET", "ShowImageDetails?image=" + image, null,
+        imageId = image;
+        makeCall("GET", "ShowImageDetails?image=" + imageId + "&comments=false", null,
             function (req) {
                 var message = req.responseText;
                 if(req.readyState == 4) {
@@ -231,6 +241,39 @@ function ImageDetails(_alert, _imageDetails) {
                     }
                 }
             })
+    }
+
+    this.showComment = function (image) {
+        var self = this;
+        makeCall("GET", "ShowImageDetails?image=" + imageId + "&comments=true", null,
+            function (req) {
+                var message = req.responseText;
+                if(req.readyState == 4) {
+                    if(req.status==200) {
+                        self.updateComments(JSON.parse(req.responseText));
+                    }
+                    else {
+                        self.alert.textContent = message;
+                    }
+                }
+            })
+    }
+
+    this.updateComments = function (response) {
+        var self = this;
+        if(response.length!=0) {
+            response.forEach(function (comment) {
+                let row = document.createElement("tr");
+                let author = document.createElement("td");
+                author.textContent = comment.nickname;
+                row.appendChild(author);
+                let singleComment = document.createElement("td");
+                singleComment.textContent = comment.comment;
+                row.appendChild(singleComment);
+                document.getElementById("commentsBody").appendChild(row);
+            })
+        }
+        document.getElementById("commentsTable").style.visibility = "visible";
     }
 
     this.update = function (imageResponse) {
@@ -252,8 +295,7 @@ function ImageDetails(_alert, _imageDetails) {
         div.appendChild(date);
         self.imageDetails.appendChild(div);
         self.imageDetails.style.visibility = "visible";
-        albumDetails.reset();
-        directionalButtons.reset();
+        this.showComment()
     }
 }
 

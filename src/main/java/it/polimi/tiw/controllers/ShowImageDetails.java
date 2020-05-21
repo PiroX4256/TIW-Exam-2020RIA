@@ -31,6 +31,7 @@ public class ShowImageDetails extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int image = Integer.parseInt(request.getParameter("image"));
+        boolean comment = Boolean.parseBoolean(request.getParameter("comments"));
         List<Comment> comments = new ArrayList<>();
         Image imageDetails;
         ImageDAO imageDAO = new ImageDAO(connection, image);
@@ -40,12 +41,18 @@ public class ShowImageDetails extends HttpServlet {
             comments = commentDAO.retrieveComments();
         }
         catch (SQLException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to get the desired image.");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Unable to get the desired image.");
             return;
         }
         Gson gson = new GsonBuilder().setDateFormat("yyyy MM dd").create();
-        String jsonAnswer = gson.toJson(imageDetails);
-        String jsonComments = gson.toJson(comments);
+        String jsonAnswer;
+        if(comment) {
+            jsonAnswer = gson.toJson(comments);
+        }
+        else {
+            jsonAnswer = gson.toJson(imageDetails);
+        }
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonAnswer);
