@@ -20,10 +20,12 @@ import java.util.List;
 public class GetAlbumDetails extends HttpServlet {
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int albumId = Integer.parseInt(request.getParameter("album"));
         int pageId = Integer.parseInt(request.getParameter("page"));

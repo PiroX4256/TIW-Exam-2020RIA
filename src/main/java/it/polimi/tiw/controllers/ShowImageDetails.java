@@ -7,9 +7,6 @@ import it.polimi.tiw.beans.Image;
 import it.polimi.tiw.dao.CommentDAO;
 import it.polimi.tiw.dao.ImageDAO;
 import it.polimi.tiw.utils.Initializer;
-import it.polimi.tiw.utils.Pages;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,10 +22,12 @@ import java.util.List;
 public class ShowImageDetails extends HttpServlet {
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int image = Integer.parseInt(request.getParameter("image"));
         boolean comment = Boolean.parseBoolean(request.getParameter("comments"));

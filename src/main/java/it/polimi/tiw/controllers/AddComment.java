@@ -17,10 +17,12 @@ import java.sql.SQLException;
 public class AddComment extends HttpServlet {
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String nickname = request.getParameter("nickname");
         String comment = request.getParameter("comment");

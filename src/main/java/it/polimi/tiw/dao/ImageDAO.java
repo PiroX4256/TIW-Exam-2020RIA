@@ -36,12 +36,12 @@ public class ImageDAO {
             preparedStatement.setInt(1, album);
             try(ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    int imageId = resultSet.getInt("imageid");
+                    int tempImageId = resultSet.getInt("imageid");
                     String title = resultSet.getString("title");
                     String description = resultSet.getString("description");
                     Date date = resultSet.getDate("date");
                     String path = resultSet.getString("filepath");
-                    Image image = new Image(imageId, title, date, description, path);
+                    Image image = new Image(tempImageId, title, date, description, path);
                     images.add(image);
                 }
             }

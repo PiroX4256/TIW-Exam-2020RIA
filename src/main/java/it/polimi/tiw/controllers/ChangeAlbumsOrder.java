@@ -5,7 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,13 +21,15 @@ import org.json.JSONObject;
 public class ChangeAlbumsOrder extends HttpServlet {
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject jsonObject;
-        StringBuffer jb = new StringBuffer();
+        StringBuilder jb = new StringBuilder();
         String line = null;
         String queryContent = "";
         try {
@@ -61,6 +62,4 @@ public class ChangeAlbumsOrder extends HttpServlet {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
 }

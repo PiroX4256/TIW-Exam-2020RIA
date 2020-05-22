@@ -2,8 +2,6 @@ package it.polimi.tiw.controllers;
 
 import it.polimi.tiw.dao.AlbumDAO;
 import it.polimi.tiw.utils.Initializer;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +12,17 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-//TODO CONTROLLI LATO SERVER
 
 @WebServlet("/CreateNewAlbum")
 public class CreateNewAlbum extends HttpServlet {
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         String title = request.getParameter("title");

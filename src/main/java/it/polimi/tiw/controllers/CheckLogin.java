@@ -19,11 +19,13 @@ import java.sql.SQLException;
 @MultipartConfig
 public class CheckLogin extends HttpServlet {
     private static Connection connection;
-    
+
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
-    
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         String username = request.getParameter("username");
@@ -53,9 +55,5 @@ public class CheckLogin extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().println(username);
         }
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

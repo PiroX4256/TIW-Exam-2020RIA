@@ -2,13 +2,13 @@ package it.polimi.tiw.beans;
 
 public class Comment {
     private final int commentId;
-    private final String comment;
+    private final String userComment;
     private final String nickname;
 
 
-    public Comment(int commentId, String comment, String nickname) {
+    public Comment(int commentId, String userComment, String nickname) {
         this.commentId = commentId;
-        this.comment = comment;
+        this.userComment = userComment;
         this.nickname = nickname;
     }
 
@@ -16,8 +16,8 @@ public class Comment {
         return commentId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getUserComment() {
+        return userComment;
     }
 
     public String getNickname() {

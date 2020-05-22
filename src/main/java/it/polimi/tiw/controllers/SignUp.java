@@ -5,7 +5,6 @@ import it.polimi.tiw.utils.Initializer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -22,15 +21,18 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @WebServlet("/SignUp")
 @MultipartConfig
 public class SignUp extends HttpServlet {
+    public static final String UTF_8 = "UTF-8";
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject jsonObject;
-        StringBuffer jb = new StringBuffer();
+        StringBuilder jb = new StringBuilder();
         String line;
         String username;
         String password;
@@ -45,7 +47,7 @@ public class SignUp extends HttpServlet {
             JSONArray jsonRequest = (JSONArray)jsonObject.get("parameters");
             if(jsonRequest.length()==0) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.setContentType("UTF-8");
+                response.setContentType(UTF_8);
                 response.getWriter().println("Error: missing parameters!");
                 return;
             }
@@ -57,7 +59,7 @@ public class SignUp extends HttpServlet {
         }
         if(username.equals("") || password.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.setContentType("UTF-8");
+            response.setContentType(UTF_8);
             response.getWriter().println("Error: missing parameters!");
             return;
         }
@@ -66,19 +68,15 @@ public class SignUp extends HttpServlet {
             userDAO.registerUser(username, password);
         }  catch (SQLIntegrityConstraintViolationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.setContentType("UTF-8");
+            response.setContentType(UTF_8);
             response.getWriter().println("Error: an user with that nickname already exists!");
             return;
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setContentType("UTF-8");
+            response.setContentType(UTF_8);
             response.getWriter().println("Error during credentials retrieving, please try again later!");
             return;
         }
         response.setStatus(HttpServletResponse.SC_OK);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

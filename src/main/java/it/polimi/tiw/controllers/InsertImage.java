@@ -26,13 +26,15 @@ public class InsertImage extends HttpServlet {
     private static Connection connection;
     private static final String SAVE_DIR = "uploads" + File.separator + "images";
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        Map<String, String> fieldMapValue = handleRequest(request, response);
+        Map<String, String> fieldMapValue = handleRequest(request);
         int albumId = 0;
         String title;
         String description;
@@ -69,7 +71,7 @@ public class InsertImage extends HttpServlet {
         response.sendRedirect(getServletContext().getContextPath() + "/GoToAlbumPage?album=" + albumId + "&page=0");
     }
 
-    protected Map<String, String> handleRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected Map<String, String> handleRequest(HttpServletRequest request) {
         HashMap<String, String> fieldMapValue = new HashMap<>();
         ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
         File file;
@@ -86,10 +88,10 @@ public class InsertImage extends HttpServlet {
                 }
                 else {
                     String fileName = item.getName();
-                    if (fileName.lastIndexOf("\\") >= 0) {
-                        file = new File(profilePicturePath + fileName.substring(fileName.lastIndexOf("\\")));
+                    if (fileName.lastIndexOf('\\') >= 0) {
+                        file = new File(profilePicturePath + fileName.substring(fileName.lastIndexOf('\\')));
                     } else {
-                        file = new File(profilePicturePath + fileName.substring(fileName.lastIndexOf("\\") + 1));
+                        file = new File(profilePicturePath + fileName.substring(fileName.lastIndexOf('\\') + 1));
                     }
                     item.write(file);
                     fieldMapValue.put("fileName", SAVE_DIR + File.separator + fileName);

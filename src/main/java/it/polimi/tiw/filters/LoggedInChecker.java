@@ -9,8 +9,6 @@ import java.io.IOException;
 
 @WebFilter("/LoggedInChecker")
 public class LoggedInChecker implements Filter {
-    public void destroy() {
-    }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         System.out.println("Started login checker filter");
@@ -25,10 +23,6 @@ public class LoggedInChecker implements Filter {
             return;
         }
         chain.doFilter(req, resp);
-    }
-
-    public void init(FilterConfig config) throws ServletException {
-
     }
 
 }

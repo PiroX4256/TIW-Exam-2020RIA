@@ -21,10 +21,12 @@ import java.util.List;
 public class GetAlbumList extends HttpServlet {
     private static Connection connection;
 
+    @Override
     public void init() {
         connection = Initializer.connectionInit(getServletContext());
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User)request.getSession().getAttribute("user");
         AlbumDAO albumDAO = new AlbumDAO(connection);
@@ -44,6 +46,7 @@ public class GetAlbumList extends HttpServlet {
         response.getWriter().write(json);
     }
 
+    @Override
     public void destroy() {
         try {
             if(connection!=null) {
@@ -52,9 +55,5 @@ public class GetAlbumList extends HttpServlet {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
