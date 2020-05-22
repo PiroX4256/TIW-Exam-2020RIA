@@ -58,6 +58,7 @@ public class ChangeAlbumsOrder extends HttpServlet {
         } catch (SQLException sqlException) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+        response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

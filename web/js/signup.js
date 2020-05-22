@@ -1,41 +1,37 @@
 (function () {
-    var submit = document.getElementById("submit");
-    submit.addEventListener("click", () => {
-        var user = document.forms["signUp"]["username"].value;
-        var pwd = document.forms["signUp"]["password"].value;
-        var errorMsg = document.getElementById("errorMessage");
-        if (user == "" || pwd == "") {
-            alert("Fields must not be empty.");
+    document.getElementById("submit").addEventListener("click", () => {
+        var request = {
+            "parameters": []
         }
-
+        var username = document.forms["signUp"]["username"].value;
+        var password = document.forms["signUp"]["password"].value;
+        var errorMsg = document.getElementById("errorMessage");
+        request.parameters.push(username);
+        request.parameters.push(password);
+        if (username == "" || password == "") {
+            alert("Fields must not be empty.");
+            return;
+        }
+        var jsonReq = JSON.stringify(request);
+        function success() {
+            alert("Registration process has been completed. You can now login!");
+            location.replace("index.html");
+        }
         $.ajax({
             type: "POST",
+            dataType: "application/json",
             url: "SignUp",
-            data: {"username": user, "password": pwd},
-            statusCode: {
-                200: function() {
-                    location.replace("index.html");
-                },
-                400: function () {
+            data: jsonReq,
+            success: success(),
+            error: function(err) {
+                switch (err.status) {
+                    case 400:
                     errorMsg.textContent = "Error: an user with that nickname already exists!";
-                },
-                500: function () {
+                    break;
+                    case 500:
                     errorMsg.textContent = "Error during credentials retrieving, please try again later!";
+                    }
                 }
-            }
-        }).done(function (response) {
-            var message = response.responseText;
-            switch (response.status) {
-                case 200:
-                    alert("You successfully registered, now you can login!");
-                    location.replace("index.html");
-                    break;
-                case 400:
-                    errorMsg.textContent = message;
-                    break;
-                case 500:
-                    errorMsg.textContent = message;
-            }
         });
     })
 })();
