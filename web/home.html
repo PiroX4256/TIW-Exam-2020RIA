@@ -48,7 +48,7 @@
             <fieldset>
                 <input type="hidden" id="orderList" name="orderList">
             </fieldset>
-            <button type="submit" id="saveOrder" class="btn btn-primary" style="visibility: hidden">Save Order</button>
+            <input type="button" id="saveOrder" class="btn btn-primary" style="visibility: hidden" value="Save Order">
         </form>
     </div>
     <button id="goToHome" class="btn btn-primary" style="margin: auto">Back to the homepage</button>
@@ -77,11 +77,6 @@
                 <b><h2>Add a comment</h2></b>
                 <form name="addComment" id="addComment" action="#">
                     <fieldset>
-                        <div class="form-group">
-                            <label>Nickname
-                                <input class="form-control" type="text" name="nickname" required>
-                            </label>
-                        </div>
                         <div class="form-group">
                             <label>Comment
                                 <textarea class="form-control" name="comment" required></textarea>

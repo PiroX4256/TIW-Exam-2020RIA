@@ -324,7 +324,7 @@
                     author.textContent = comment.nickname;
                     row.appendChild(author);
                     let singleComment = document.createElement("td");
-                    singleComment.textContent = comment.comment;
+                    singleComment.textContent = comment.userComment;
                     row.appendChild(singleComment);
                     document.getElementById("commentsBody").appendChild(row);
                 })
@@ -372,23 +372,21 @@
     }
 
     function handleComment(currentIMGid) {
-        var nickname = document.forms["addComment"]["nickname"].value;
         var comment = document.forms["addComment"]["comment"].value;
         var imageId = document.forms["addComment"]["imageToComment"].value;
-        if (nickname == "" || comment == "") {
+        if (comment == "") {
             document.getElementById("errorMessage").textContent = "Field must not be empty!";
             return;
         }
         $.ajax({
             type:"POST",
             url:"AddComment",
-            data:{"nickname":nickname, "comment":comment, "image":imageId},
+            data:{"comment":comment, "image":imageId},
             statusCode: {
                 200: function() {
                     $("#modal").modal('hide');
-                    var nickname = document.forms["addComment"]["nickname"].value = "";
-                    var comment = document.forms["addComment"]["comment"].value = "";
-                    var imageId = document.forms["addComment"]["imageToComment"].value = "";
+                    document.forms["addComment"]["comment"].value = "";
+                    document.forms["addComment"]["imageToComment"].value = "";
                     delete this;
                 },
                 400: function() {

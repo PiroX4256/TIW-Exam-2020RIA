@@ -1,5 +1,6 @@
 package it.polimi.tiw.controllers;
 
+import it.polimi.tiw.beans.User;
 import it.polimi.tiw.dao.CommentDAO;
 import it.polimi.tiw.utils.Initializer;
 
@@ -24,7 +25,8 @@ public class AddComment extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String nickname = request.getParameter("nickname");
+        User user = (User)request.getSession().getAttribute("user");
+        String nickname = user.getUsername();
         String comment = request.getParameter("comment");
         String s = request.getParameter("image");
         if(nickname.equals("") || comment.equals("")) {

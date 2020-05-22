@@ -40,14 +40,17 @@ document.getElementById("saveOrder").addEventListener("click", (e) => {
         jsonReq.albumsOrder.push(row.cells[0].textContent);
     }
     var request = JSON.stringify(jsonReq);
+
+    function success() {
+        alert("Albums order has been successfully changed!");
+    }
+
     $.ajax({
         type: "POST",
         dataType: "application/json",
         url: "ChangeAlbumsOrder",
         data: request,
-        success: function () {
-            alert("Albums order has been successfully changed!");
-        }
+        success: success(),
     })
     document.getElementById("saveOrder").style.visibility = "hidden";
 })
