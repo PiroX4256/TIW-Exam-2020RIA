@@ -5,12 +5,30 @@
         }
         var username = document.forms["signUp"]["username"].value;
         var password = document.forms["signUp"]["password"].value;
+        var passwordConfirmation = document.forms["signUp"]["passwordConfirmation"].value;
+        var email = document.forms["signUp"]["email"].value;
         var errorMsg = document.getElementById("errorMessage");
         request.parameters.push(username);
         request.parameters.push(password);
-        if (username == "" || password == "") {
+        request.parameters.push(email);
+        if (username == "" || password == "" || passwordConfirmation=="" || email=="") {
             alert("Fields must not be empty.");
             return;
+        }
+        else if(password!=passwordConfirmation) {
+            errorMsg.textContent = "Passwords don't match!";
+            return;
+        }
+        else if(!email.includes("@")) {
+            errorMsg.textContent = "Invalid email format!";
+            return;
+        }
+        else {
+            var emailFragments = email.split("@");
+            if(!emailFragments[1].includes(".")) {
+                errorMsg.textContent = "Invalid email format!";
+                return;
+            }
         }
         var jsonReq = JSON.stringify(request);
         function success() {

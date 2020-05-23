@@ -36,6 +36,7 @@ public class SignUp extends HttpServlet {
         String line;
         String username;
         String password;
+        String email;
         try {
             BufferedReader reader = request.getReader();
             while ((line = reader.readLine()) != null)
@@ -53,23 +54,31 @@ public class SignUp extends HttpServlet {
             }
             username = jsonRequest.getString(0);
             password = jsonRequest.getString(1);
+            email = jsonRequest.getString(2);
+
 
         } catch (JSONException e) {
             throw new IOException("Error parsing JSON request string");
         }
-        if(username.equals("") || password.equals("")) {
+        if(username.equals("") || password.equals("") || email.equals("")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType(UTF_8);
             response.getWriter().println("Error: missing parameters!");
             return;
         }
+        else if(!email.contains("@")) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType(UTF_8);
+            response.getWriter().println("Error: bad email format!");
+            return;
+        }
         UserDAO userDAO = new UserDAO(connection);
         try {
-            userDAO.registerUser(username, password);
+            userDAO.registerUser(username, password, email);
         }  catch (SQLIntegrityConstraintViolationException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType(UTF_8);
-            response.getWriter().println("Error: an user with that nickname already exists!");
+            response.getWriter().println("Error: an user with that nickname (or email) already exists!");
             return;
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

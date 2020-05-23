@@ -28,11 +28,12 @@ public class UserDAO {
         return null;
     }
 
-    public void registerUser(String username, String password) throws SQLException {
-        String query = "INSERT INTO users (username, password) VALUES (?, ?)";
+    public void registerUser(String username, String password, String email) throws SQLException {
+        String query = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
+            preparedStatement.setString(3, email);
             preparedStatement.executeUpdate();
         }
     }
