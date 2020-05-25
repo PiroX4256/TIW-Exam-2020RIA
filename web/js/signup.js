@@ -19,16 +19,9 @@
             errorMsg.textContent = "Passwords don't match!";
             return;
         }
-        else if(!email.includes("@")) {
+        else if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(signUp.email.value))) {      //IETF RCF3696 EMAIL VALIDATION STANDARD
             errorMsg.textContent = "Invalid email format!";
             return;
-        }
-        else {
-            var emailFragments = email.split("@");
-            if(!emailFragments[1].includes(".")) {
-                errorMsg.textContent = "Invalid email format!";
-                return;
-            }
         }
         var jsonReq = JSON.stringify(request);
         function success() {

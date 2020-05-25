@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.regex.Pattern;
 
 @WebServlet("/SignUp")
 @MultipartConfig
@@ -37,6 +38,7 @@ public class SignUp extends HttpServlet {
         String username;
         String password;
         String email;
+        String emailRegex = "^([a-zA-Z0-9_\\-.]+)@([a-zA-Z0-9_\\-.]+)\\.([a-zA-Z]{2,5})$";  //IETF RCF3696 EMAIL VALIDATION STANDARD
         try {
             BufferedReader reader = request.getReader();
             while ((line = reader.readLine()) != null)
@@ -66,7 +68,7 @@ public class SignUp extends HttpServlet {
             response.getWriter().println("Error: missing parameters!");
             return;
         }
-        else if(!email.contains("@")) {
+        else if(Pattern.matches(emailRegex, email)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType(UTF_8);
             response.getWriter().println("Error: bad email format!");
