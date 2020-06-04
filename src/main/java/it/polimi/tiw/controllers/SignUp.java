@@ -68,7 +68,7 @@ public class SignUp extends HttpServlet {
             response.getWriter().println("Error: missing parameters!");
             return;
         }
-        else if(Pattern.matches(emailRegex, email)) {
+        else if(!Pattern.matches(emailRegex, email)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType(UTF_8);
             response.getWriter().println("Error: bad email format!");
