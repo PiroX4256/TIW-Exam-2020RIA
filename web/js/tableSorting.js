@@ -21,7 +21,6 @@ document.getElementById("albumListBody").addEventListener("mousedown", (e) => {
         if (drag && si != tr.index()) {
             drag = false;
             document.getElementById("saveOrder").style.visibility = "visible";
-            //alert("moved!");
         }
         $(document).unbind("mousemove", move).unbind("mouseup", up);
         b.removeClass("grabCursor").css("userSelect", "none");
