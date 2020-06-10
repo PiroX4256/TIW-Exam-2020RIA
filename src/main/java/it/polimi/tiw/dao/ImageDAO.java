@@ -17,18 +17,6 @@ public class ImageDAO {
         this.imageId = album;
     }
 
-    public void createNewImage(String title, String path, Date date, String description) throws SQLException {
-        String query = "INSERT INTO image (title, filepath, date, description, album) VALUES (?, ?, ?, ?, ?)";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, title);
-            preparedStatement.setString(2, path);
-            preparedStatement.setDate(3, date);
-            preparedStatement.setString(4, description);
-            preparedStatement.setInt(5, album);
-            preparedStatement.executeUpdate();
-        }
-    }
-
     public List<Image> retrieveImages() throws SQLException {
         String query = "SELECT * FROM image WHERE album = ? ORDER BY date DESC";
         List<Image> images = new ArrayList<>();

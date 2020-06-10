@@ -67,15 +67,6 @@ public class AlbumDAO {
         return albumList;
     }
 
-    public void createNewAlbum(String title) throws SQLException {
-        String query = "INSERT INTO album (title, creationDate) VALUES (?, ?)";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, title);
-            preparedStatement.setDate(2, new java.sql.Date(new Date().getTime()));
-            preparedStatement.executeUpdate();
-        }
-    }
-
     public void updateAlbumList(int userId, String albumOrder) throws SQLException {
         String query = "UPDATE users SET albumOrder = ? WHERE id = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {

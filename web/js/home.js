@@ -30,6 +30,7 @@
         }
 
         this.show = function (next) {
+            currentPage = 0;
             var self = this;
             document.getElementById("albumImagesTitle").style.visibility = "hidden";
             document.getElementById("goToHome").style.visibility = "hidden";
@@ -169,13 +170,14 @@
             for (i = currentPage * 5; i < (currentPage * 5 + 5); i++) {
                 row.appendChild(document.createElement("td"));
                 var destImage = document.createElement("img");
+                let singleI = i;
                 destImage.addEventListener("click", () => {
-                    this.imageDetails = new ImageDetails(this.alert, document.getElementById("imageDetailsLMAO"), imageList[i].imageId);
+                    this.imageDetails = new ImageDetails(this.alert, document.getElementById("imageDetailsBox"), imageList[singleI].imageId);
                     $('#modal').modal('show');
-                    this.imageDetails.show(imageList[i].imageId);
+                    this.imageDetails.show(imageList[singleI].imageId);
                     var self2 = this;
                     $("#modal").on('hide.bs.modal', function () {
-                        if(self2.imageDetails!=null) self2.imageDetails.reset();
+                        if (self2.imageDetails != null) self2.imageDetails.reset();
                         delete self2.imageDetails;
                     });
                 })
@@ -204,12 +206,12 @@
                 var destImage = document.createElement("img");
                 destImage.src = image.path;
                 destImage.addEventListener("click", () => {
-                    this.imageDetails = new ImageDetails(this.alert, document.getElementById("imageDetailsLMAO"), image.imageId);
+                    this.imageDetails = new ImageDetails(this.alert, document.getElementById("imageDetailsBox"), image.imageId);
                     var self2 = this;
                     $('#modal').modal('show');
                     this.imageDetails.show(image.imageId);
                     $("#modal").on('hide.bs.modal', function () {
-                        if(self2.imageDetails!=null) self2.imageDetails.reset();
+                        if (self2.imageDetails != null) self2.imageDetails.reset();
                         delete self2.imageDetails;
                     });
                 })
@@ -239,27 +241,43 @@
             document.getElementById("arrowsDiv").className = "hidden";
         }
 
+        this.resetEvents = function () {
+            $(this.prev).unbind();
+            $(this.next).unbind();
+        }
+
         this.update = function () {
             if (imageList.length > 5) {
+                this.resetEvents()
+                var self = this;
                 document.getElementById("arrowsDiv").className = "arrowsDiv";
-                this.next.style.visibility = "visible";
-                this.prev.style.visibility = "visible";
-                this.next.addEventListener("click", () => {
-                    if ((currentPage + 1) * 5 > imageList.length) {
-                        alert("There are no more images to display!");
-                        return;
-                    }
-                    currentPage++;
-                    albumList.albumDetails.update();
-                })
-                this.prev.addEventListener("click", () => {
-                    if (currentPage == 0) {
-                        alert("Page number can't be <0!");
-                        return;
-                    }
-                    currentPage--;
-                    albumList.albumDetails.update();
-                })
+                this.next.style.visibility = "hidden";
+                this.prev.style.visibility = "hidden";
+                if (currentPage > 0) {
+                    this.prev.style.visibility = "visible";
+                    $(this.prev).bind("click", function () {
+                        if (currentPage === 0) {
+                            //alert("Page number can't be <0!");
+                            return;
+                        }
+                        currentPage--;
+                        self.update();
+                        albumList.albumDetails.update();
+                    });
+                }
+                if (currentPage*5 + 1 < imageList.length) {
+                    this.next.style.visibility = "visible";
+                    $(this.next).bind("click", function () {
+                            if ((currentPage + 1) * 5 > imageList.length) {
+                                //alert("There are no more images to display!");
+                                return;
+                            }
+                            currentPage++;
+                            self.update();
+                            albumList.albumDetails.update();
+                        }
+                    );
+                }
             }
         }
     }
@@ -379,23 +397,23 @@
             return;
         }
         $.ajax({
-            type:"POST",
-            url:"AddComment",
-            data:{"comment":comment, "image":imageId},
+            type: "POST",
+            url: "AddComment",
+            data: {"comment": comment, "image": imageId},
             statusCode: {
-                200: function() {
+                200: function () {
                     $("#modal").modal('hide');
                     document.forms["addComment"]["comment"].value = "";
                     document.forms["addComment"]["imageToComment"].value = "";
                     delete this;
                 },
-                400: function() {
+                400: function () {
                     document.getElementById("errorMessage").innerHTML = "Missing parameters!";
                 },
-                401: function() {
+                401: function () {
                     document.getElementById("errorMessage").innerHTML = "Not authorized to view that page!";
                 },
-                500: function() {
+                500: function () {
                     document.getElementById("errorMessage").innerHTML = message;
                 }
             }
@@ -413,4 +431,5 @@
         }
         document.getElementById("addCommentButton").addEventListener('click', handleComment);
     }
-})();
+})
+();
