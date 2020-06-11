@@ -24,7 +24,8 @@
             return;
         }
         var jsonReq = JSON.stringify(request);
-        function success() {
+
+        function success(response) {
             alert("Registration process has been completed. You can now login!");
             location.replace("index.html");
         }
@@ -33,7 +34,18 @@
             dataType: "application/json",
             url: "SignUp",
             data: jsonReq,
-            success: success(),
+            async: false,
+            statusCode: {
+                200: function (response) {
+                    success()
+                },
+                400: function(response) {
+                    errorMsg.textContent = "Error: an user with that nickname already exists!";
+                },
+                500: function(response) {
+                    errorMsg.textContent = "Error during credentials retrieving, please try again later!";
+                }
+            },
             error: function(err) {
                 switch (err.status) {
                     case 400:
